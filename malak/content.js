@@ -67,7 +67,7 @@ const CONTENT = {
   // Set unlockAt to "" to let her open it straight away.
   // To check the letter yourself before then, open the link with ?preview
   // on the end, for example  https://your-link/?preview
-  unlockAt: "2026-09-05T00:00:00+03:00",
+  unlockAt: "",
   unlockLabel: "Opens on 5 September",
   unlockUnits: ["days", "hours", "minutes", "seconds"]
 };
@@ -102,7 +102,7 @@ const CONTENT_ARABIC = {
   signer: "نور",
   music: "music/lovesong.mp3",
   musicLine: "مهما كنتي بعيدة، هفضل بحبك",
-  unlockAt: "2026-09-05T00:00:00+03:00",
+  unlockAt: "",
   unlockLabel: "بيتفتح يوم ٥ سبتمبر",
   unlockUnits: ["يوم", "ساعة", "دقيقة", "ثانية"]
 };
