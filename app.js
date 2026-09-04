@@ -352,7 +352,9 @@
     audio.src = C.music;
     audio.volume = 0;
     putAll("[data-musicline]", C.musicLine || "");
-    document.getElementById("gateSound").hidden = false;
+    audio.addEventListener("canplay", function () {
+      if (hasMusic) document.getElementById("gateSound").hidden = false;
+    }, { once: true });
     audio.addEventListener("error", function () {
       hasMusic = false;
       musicBtn.hidden = true;
