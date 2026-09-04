@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Malak's birthday site</title>
+<style>
+  :root{color-scheme:dark}
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:48px 22px 90px;
+    font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+    background:#111214; color:#eceaea;
+  }
+  .wrap{max-width:1080px; margin:0 auto}
+  h1{font-size:26px; letter-spacing:-.02em; margin:0 0 6px; font-weight:600}
+  .lede{margin:0 0 36px; color:#9a9797; max-width:60ch}
+  h2.sec{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#78767a; margin:0 0 14px; font-weight:500}
+  a.card{
+    display:block; text-decoration:none; color:inherit;
+    border:1px solid #2b2c30; border-radius:12px; overflow:hidden;
+    transition:border-color .25s ease, transform .25s cubic-bezier(.16,1,.3,1);
+  }
+  a.card:hover{border-color:#5a4046; transform:translateY(-3px)}
+  a.hero{border-color:#5c2630; margin-bottom:44px}
+  a.hero:hover{border-color:#8d3b48}
+  .swatch{height:150px; display:flex; align-items:flex-end; padding:16px}
+  .hero .swatch{height:200px}
+  .s0{background:#fbf9f8} .s0 b{color:#a8102a}
+  .s1{background:#f3f1ec} .s1 b{color:#a8324f}
+  .s2{background:radial-gradient(120% 90% at 40% 0%,#1b2040,#080a12)} .s2 b{color:#ffb45e}
+  .s3{background:#f0efeb} .s3 b{color:#2f27ff}
+  .swatch b{font-size:24px; letter-spacing:-.02em}
+  .meta{padding:16px 16px 18px}
+  .meta h3{margin:0 0 5px; font-size:15.5px; font-weight:600}
+  .meta p{margin:0; color:#9a9797; font-size:13.5px}
+  .grid{display:grid; gap:16px; grid-template-columns:1fr}
+  @media(min-width:860px){.grid{grid-template-columns:repeat(3,1fr)}}
+  footer{margin-top:44px; color:#78767a; font-size:13px}
+  code{background:#1d1e22; padding:2px 6px; border-radius:4px; font-size:12.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Malak's birthday site</h1>
+  <p class="lede">The finished one is at the top. Write your message in <code>malak/content.js</code>, then send her that folder. The three below are the earlier drafts, kept in case you want to look back at them.</p>
+
+  <h2 class="sec">Send this one</h2>
+  <a class="card hero" href="malak/index.html">
+    <div class="swatch s0"><b>A letter for Malak</b></div>
+    <div class="meta">
+      <h3>malak</h3>
+      <p>A sealed envelope with a rose wax seal, then the letter. Her age and her date, red roses, and a wish she can make at the end. Works in English or Arabic.</p>
+    </div>
+  </a>
+
+  <h2 class="sec">Earlier drafts</h2>
+  <div class="grid">
+    <a class="card" href="01-letter/index.html">
+      <div class="swatch s1"><b>A letter</b></div>
+      <div class="meta"><h3>01 Letter</h3><p>The first version this one grew out of.</p></div>
+    </a>
+    <a class="card" href="02-night/index.html">
+      <div class="swatch s2"><b>Night sky</b></div>
+      <div class="meta"><h3>02 Night</h3><p>Stars, and the wish that moved into the final one.</p></div>
+    </a>
+    <a class="card" href="03-poster/index.html">
+      <div class="swatch s3"><b>Poster</b></div>
+      <div class="meta"><h3>03 Poster</h3><p>Loud graphic type and a draggable photo strip.</p></div>
+    </a>
+  </div>
+
+  <footer>Everything works on a phone. No build step, no install.</footer>
+</div>
+</body>
+</html>

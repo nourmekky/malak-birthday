@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A letter for you</title>
+<meta name="description" content="A birthday letter.">
+<meta name="theme-color" content="#f3f1ec">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Sealed envelope. Click to open. -->
+<div class="gate" id="gate">
+  <div class="gate__inner">
+    <button class="envelope" id="envelope" type="button" aria-label="Open the letter">
+      <span class="envelope__body">
+        <span class="envelope__flap"></span>
+        <span class="envelope__front"></span>
+        <span class="envelope__seal" aria-hidden="true"></span>
+      </span>
+      <span class="envelope__to">For <em data-name></em></span>
+    </button>
+    <p class="gate__hint">Tap to open</p>
+  </div>
+</div>
+
+<main class="letter" id="letter" hidden>
+  <article class="sheet">
+
+    <p class="dateline" data-dateline></p>
+
+    <h1 class="opening" data-opening></h1>
+
+    <div class="body" id="body"></div>
+
+    <blockquote class="pull" id="pull" hidden>
+      <p data-pullquote></p>
+    </blockquote>
+
+    <figure class="photo" id="photo" hidden>
+      <img id="photoImg" alt="" loading="lazy" decoding="async">
+      <figcaption data-photocaption></figcaption>
+    </figure>
+
+    <footer class="signoff">
+      <p class="signoff__line" data-signoff></p>
+      <p class="signoff__from" data-from></p>
+    </footer>
+
+  </article>
+</main>
+
+<script src="content.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

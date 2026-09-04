@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Happy birthday</title>
+<meta name="description" content="A birthday message.">
+<meta name="theme-color" content="#080a12">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<main>
+
+  <section class="hero">
+    <h1 class="hero__title" data-headline></h1>
+    <p class="hero__sub" data-subline></p>
+  </section>
+
+  <section class="lines" id="lines"></section>
+
+  <section class="frame" id="frame" hidden>
+    <div class="frame__inner reveal">
+      <img id="photoImg" alt="" loading="lazy" decoding="async">
+    </div>
+    <p class="frame__cap reveal" data-photocaption></p>
+  </section>
+
+  <section class="wish" id="wish">
+    <p class="wish__prompt reveal" data-wishprompt></p>
+    <button class="wish__btn reveal" id="wishBtn" type="button"></button>
+    <p class="wish__reply" id="wishReply" data-wishreply aria-live="polite"></p>
+  </section>
+
+  <footer class="end">
+    <p class="end__line reveal" data-signoff></p>
+    <p class="end__from reveal" data-from></p>
+  </footer>
+
+</main>
+
+<script src="content.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

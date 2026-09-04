@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Happy birthday</title>
+<meta name="description" content="A birthday message.">
+<meta name="theme-color" content="#f0efeb">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="poster">
+  <div class="poster__grid">
+    <h1 class="poster__title" id="heroWords"></h1>
+    <p class="poster__sub" data-herosub></p>
+    <span class="poster__block" aria-hidden="true"></span>
+  </div>
+</header>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track" id="marqueeTrack"></div>
+</div>
+
+<section class="strip" id="strip" hidden>
+  <div class="strip__rail" id="rail"></div>
+</section>
+
+<section class="note">
+  <div class="note__inner" id="note"></div>
+</section>
+
+<section class="reasons" id="reasons" hidden>
+  <h2 class="reasons__head">Things that are true about you</h2>
+  <div class="reasons__grid" id="reasonsGrid"></div>
+</section>
+
+<footer class="end">
+  <p class="end__line reveal" data-signoff></p>
+  <p class="end__from reveal" data-from></p>
+</footer>
+
+<script src="content.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
