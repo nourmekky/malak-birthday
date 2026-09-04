@@ -21,6 +21,18 @@
   --ease:cubic-bezier(.16,1,.3,1);
 }
 
+/* Samsung Internet darkens any site that has no dark theme of its own.
+   So the dark theme is declared, and it is the same white paper. */
+@media (prefers-color-scheme:dark){
+  :root{
+    color-scheme:light only;
+    --paper:#fbf9f8; --paper-2:#f3ece9;
+    --ink:#17120f; --ink-soft:#4d443f; --ink-faint:#93877f;
+    --rose:#a8102a; --rose-deep:#7d0a1e; --rose-soft:#f7e7e8;
+  }
+  html,body{background:#fbf9f8; color:#17120f}
+}
+
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%; color-scheme:light only; background:#fbf9f8}
 body{
