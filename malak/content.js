@@ -48,10 +48,19 @@ const CONTENT = {
   wishReply: "It is already on its way.",
 
   // The end of the letter: her age and her birthday, then the signature.
-  // The signature writes itself out letter by letter when she reaches it.
+  // The signature writes itself out letter by letter when she reaches it:
+  // first the small line, then your name, with a pen stroke under it.
   age: "19",
   birthdate: "05 . 09 . 2007",
-  from: "Your future husband",
+  from: "Your future husband,",
+  signer: "Nour",
+
+  // Music. Put your song file in the music/ folder and write its name here.
+  // It starts the moment she opens the envelope (quietly, fading in), and
+  // she can mute it with the small button in the corner. The line under
+  // it shows next to that button. Set music to "" for no music.
+  music: "music/lovesong.mp3",
+  musicLine: "However far away, I will always love you",
 
   // Keep the envelope sealed until this moment (Cairo time, +03:00).
   // Before it, she sees a countdown. At midnight it unlocks by itself.
@@ -89,7 +98,10 @@ const CONTENT_ARABIC = {
   wishReply: "الأمنية في طريقها ليكي.",
   age: "19",
   birthdate: "٠٥ . ٠٩ . ٢٠٠٧",
-  from: "جوزك المستقبلي",
+  from: "جوزك المستقبلي،",
+  signer: "نور",
+  music: "music/lovesong.mp3",
+  musicLine: "مهما كنتي بعيدة، هفضل بحبك",
   unlockAt: "2026-09-05T00:00:00+03:00",
   unlockLabel: "بيتفتح يوم ٥ سبتمبر",
   unlockUnits: ["يوم", "ساعة", "دقيقة", "ثانية"]

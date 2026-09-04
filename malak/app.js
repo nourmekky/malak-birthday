@@ -105,7 +105,10 @@
   function revealOnScroll(nodes) {
     var pending = Array.prototype.slice.call(nodes);
     if (reduce) {
-      pending.forEach(function (el) { el.classList.add("is-in"); });
+      pending.forEach(function (el) {
+        el.classList.add("is-in");
+        el.dispatchEvent(new CustomEvent("reveal"));
+      });
       return;
     }
     var queued = false;
@@ -116,6 +119,7 @@
         var r = pending[i].getBoundingClientRect();
         if (r.top < vh * 0.9 && r.bottom > 0) {
           pending[i].classList.add("is-in");
+          pending[i].dispatchEvent(new CustomEvent("reveal"));
           pending.splice(i, 1);
         }
       }
@@ -239,6 +243,7 @@
     put(btn, isArabic(C.wishButton) ? "اتمنيتي" : "Wished");
 
     if (!reduce) releasePetals();
+    if (navigator.vibrate) navigator.vibrate(24);
 
     setTimeout(function () {
       put(reply, C.wishReply);
@@ -246,15 +251,198 @@
     }, reduce ? 0 : 620);
   });
 
+  /* ---------------- the signature ----------------
+     Written out one letter at a time when she reaches it: the small line
+     first, then the name, then a single pen stroke underneath. Height is
+     reserved first so nothing jumps. */
+  (function () {
+    var sig = document.getElementById("signature");
+    var lead = sig.querySelector(".signoff__text");
+    var name = sig.querySelector(".signoff__signer");
+    var leadText = C.from || "";
+    var nameText = C.signer || "";
+    var done = false;
+    if (!leadText && !nameText) { sig.hidden = true; return; }
+    if (!nameText) sig.querySelector(".signoff__name").hidden = true;
+    if (!leadText) sig.querySelector(".signoff__lead").hidden = true;
+    putAll("[data-signer]", nameText);
+
+    function finish() {
+      lead.textContent = leadText;
+      name.textContent = nameText;
+      sig.classList.add("is-signed");
+    }
+
+    function typeInto(el, str, pace, then) {
+      if (!str) { then(); return; }
+      var i = 0;
+      el.textContent = "";
+      el.classList.add("is-typing");
+      (function step() {
+        i += 1;
+        el.textContent = str.slice(0, i);
+        if (i < str.length) {
+          var ch = str.charAt(i - 1);
+          setTimeout(step, ch === " " ? pace * 2.2 : pace + Math.random() * pace);
+        } else {
+          setTimeout(function () { el.classList.remove("is-typing"); then(); }, 220);
+        }
+      })();
+    }
+
+    function start() {
+      if (done) return;
+      done = true;
+      if (reduce) { finish(); return; }
+      sig.style.minHeight = sig.offsetHeight + "px";
+      sig.querySelector(".signoff__name").style.minWidth = sig.querySelector(".signoff__name").offsetWidth + "px";
+      lead.textContent = "";
+      name.textContent = "";
+      typeInto(lead, leadText, 42, function () {
+        setTimeout(function () {
+          typeInto(name, nameText, 110, function () { setTimeout(finish, 120); });
+        }, 260);
+      });
+    }
+
+    document.querySelector(".signoff").addEventListener("reveal", function () {
+      setTimeout(start, 350);
+    });
+  })();
+
+  /* ---------------- music ----------------
+     Starts on the tap that opens the envelope, which is the one moment a
+     browser allows sound to begin. Fades in, and the corner button mutes it.
+     If the file is missing the button never shows. */
+  var audio = document.getElementById("audio");
+  var musicBtn = document.getElementById("music");
+  var hasMusic = !!C.music;
+  var musicOn = false;
+  var fadeRaf = null;
+
+  function fadeTo(target, ms, then) {
+    cancelAnimationFrame(fadeRaf);
+    var from = audio.volume, t0 = performance.now();
+    (function f(now) {
+      var k = Math.min(1, (now - t0) / ms);
+      audio.volume = from + (target - from) * k;
+      if (k < 1) fadeRaf = requestAnimationFrame(f);
+      else if (then) then();
+    })(t0);
+  }
+
+  function setMusicUI(on) {
+    musicOn = on;
+    musicBtn.classList.toggle("is-on", on);
+    musicBtn.setAttribute("aria-pressed", on ? "true" : "false");
+  }
+
+  function playMusic() {
+    if (!hasMusic) return;
+    var p = audio.play();
+    if (p && p.then) {
+      p.then(function () { setMusicUI(true); fadeTo(0.75, 2600); })
+       .catch(function () { setMusicUI(false); });
+    } else {
+      setMusicUI(true); fadeTo(0.75, 2600);
+    }
+  }
+
+  if (hasMusic) {
+    audio.src = C.music;
+    audio.volume = 0;
+    putAll("[data-musicline]", C.musicLine || "");
+    document.getElementById("gateSound").hidden = false;
+    audio.addEventListener("error", function () {
+      hasMusic = false;
+      musicBtn.hidden = true;
+      document.getElementById("gateSound").hidden = true;
+    });
+    audio.load();
+
+    musicBtn.addEventListener("click", function () {
+      if (musicOn) {
+        setMusicUI(false);
+        fadeTo(0, 500, function () { audio.pause(); });
+      } else {
+        audio.volume = 0;
+        playMusic();
+      }
+    });
+
+    /* quiet when she leaves the tab, back when she returns */
+    document.addEventListener("visibilitychange", function () {
+      if (!musicOn) return;
+      if (document.hidden) audio.pause();
+      else audio.play().catch(function () {});
+    });
+  }
+
+  /* ---------------- scroll cue ---------------- */
+  var cue = document.getElementById("cue");
+  window.addEventListener("scroll", function hideCue() {
+    if (window.scrollY > 40) {
+      cue.classList.add("is-gone");
+      window.removeEventListener("scroll", hideCue);
+    }
+  }, { passive: true });
+
   /* ---------------- the envelope ---------------- */
   var gate = document.getElementById("gate");
   var envelope = document.getElementById("envelope");
   var letter = document.getElementById("letter");
   var opened = false;
 
+  /* sealed until the moment in content.js, unless ?preview is on the link */
+  var preview = /[?&]preview\b/.test(location.search);
+  var unlockAt = C.unlockAt ? new Date(C.unlockAt).getTime() : 0;
+  var locked = !preview && unlockAt > 0 && !isNaN(unlockAt) && Date.now() < unlockAt;
+  var lockBox = document.getElementById("gateLock");
+  var countEl = document.getElementById("gateCount");
+  var units = C.unlockUnits || ["days", "hours", "minutes", "seconds"];
+  var timer = null;
+
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+
+  function drawCount() {
+    var left = Math.max(0, unlockAt - Date.now());
+    var s = Math.floor(left / 1000);
+    var vals = [Math.floor(s / 86400), Math.floor(s / 3600) % 24, Math.floor(s / 60) % 60, s % 60];
+    var html = "";
+    for (var i = 0; i < 4; i++) {
+      if (i === 0 && vals[0] === 0) continue;
+      html += "<span><b>" + pad(vals[i]) + "</b><i" + (isArabic(units[i]) ? ' class="ar"' : "") + ">" + units[i] + "</i></span>";
+    }
+    countEl.innerHTML = html;
+    if (left <= 0) unlock();
+  }
+
+  function unlock() {
+    locked = false;
+    clearInterval(timer);
+    gate.classList.remove("is-locked");
+    lockBox.hidden = true;
+    document.getElementById("gateHint").hidden = false;
+  }
+
+  if (locked) {
+    gate.classList.add("is-locked");
+    lockBox.hidden = false;
+    putAll("[data-unlocklabel]", C.unlockLabel || "");
+    drawCount();
+    timer = setInterval(drawCount, 1000);
+  }
+
   function open() {
     if (opened) return;
+    if (locked) {
+      gate.classList.remove("is-shake");
+      void gate.offsetWidth;
+      gate.classList.add("is-shake");
+      return;
+    }
     opened = true;
+    if (hasMusic) { musicBtn.hidden = false; playMusic(); }
     gate.classList.add("is-opening");
     setTimeout(function () {
       letter.hidden = false;

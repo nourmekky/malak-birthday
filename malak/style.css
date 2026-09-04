@@ -104,6 +104,22 @@ body.is-open .progress{opacity:1}
 .envelope:focus-visible{outline:none}
 .envelope:focus-visible .envelope__body{outline:2px solid var(--rose); outline-offset:7px}
 
+.envelope__letter{
+  position:absolute; left:9%; right:9%; bottom:7%; height:80%;
+  background:#fff;
+  border:1px solid var(--rule);
+  border-radius:2px;
+  z-index:1;
+  transition:transform .9s var(--ease) .12s;
+}
+.envelope__letter::before,
+.envelope__letter::after{
+  content:""; position:absolute; left:14%; right:14%; height:1px;
+  background:var(--rose-rule);
+}
+.envelope__letter::before{top:22%}
+.envelope__letter::after{top:34%; right:38%}
+.gate.is-opening .envelope__letter{transform:translateY(-46%)}
 .envelope__flap{
   position:absolute; top:0; left:0;
   width:100%; height:56%;
@@ -146,7 +162,18 @@ body.is-open .progress{opacity:1}
   margin:0; font-family:var(--sans); font-weight:300;
   font-size:11px; color:var(--ink-faint);
   letter-spacing:.22em; text-transform:uppercase;
+  text-align:center;
 }
+.gate__sound{
+  display:block; margin-top:10px;
+  color:var(--rose); letter-spacing:.2em;
+}
+.gate__sound::before{
+  content:""; display:inline-block; width:5px; height:5px;
+  margin:0 8px 2px 0; background:var(--rose); border-radius:50%;
+  animation:pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse{50%{opacity:.25}}
 
 .gate.is-opening .envelope__flap{transform:rotateX(180deg)}
 .gate.is-opening .envelope__seal{transform:scale(.35) translateY(-16px); opacity:0}
@@ -243,6 +270,7 @@ body.rtl .dateline{text-transform:none; letter-spacing:.02em; font-size:14px}
 .body p{
   margin:0 0 1.05em;
   color:var(--ink-soft);
+  text-wrap:pretty;
 }
 .body p:first-child{color:var(--ink)}
 /* a proper drop cap, latin only. Arabic does not take one. */
@@ -278,13 +306,13 @@ body.rtl .pull{
 /* ---------- the roses. wider than the text, on purpose ---------- */
 .roses{
   margin:clamp(52px,10vh,90px) 0;
-  width:min(calc(100vw - 44px),45rem);
+  width:min(calc(100vw - 44px),52rem);
   margin-left:50%;
   transform:translateX(-50%);
 }
 .roses img{
   width:100%;
-  aspect-ratio:5/4;
+  aspect-ratio:3/4;
   object-fit:cover;
   border-radius:2px;
   box-shadow:0 26px 60px rgba(125,10,30,.18);
@@ -366,23 +394,37 @@ body.rtl .wish{text-align:center}
 .signoff{margin-top:clamp(40px,7vh,72px)}
 .signoff__from{
   margin:clamp(26px,4.5vh,40px) 0 0;
-  font-size:clamp(2.4rem,8vw,3.4rem);
-  font-style:italic; font-weight:300;
+  display:flex; flex-direction:column; align-items:flex-start;
+  gap:6px;
   color:var(--rose);
-  line-height:1.24;
-  padding-bottom:.12em;
 }
-.signoff__from{position:relative; display:inline-block; max-width:100%}
-.signoff__text.ar{font-style:normal}
-.signoff__from.is-typing .signoff__text::after{
-  content:""; display:inline-block; width:2px; height:.72em;
-  margin-left:.08em; vertical-align:-.06em; background:var(--rose);
+body.rtl .signoff__from{align-items:flex-end}
+.signoff__lead{
+  font-family:var(--sans); font-weight:300;
+  font-size:12.5px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--ink-faint);
+  min-height:1.4em;
+}
+.signoff__lead .ar{font-family:var(--arabic); text-transform:none; letter-spacing:.02em; font-size:15px}
+.signoff__name{
+  position:relative; display:inline-block; max-width:100%;
+  font-size:clamp(3rem,11vw,4.6rem);
+  font-style:italic; font-weight:300;
+  line-height:1.16;
+  padding:0 .12em .12em 0;
+}
+.signoff__signer.ar{font-style:normal}
+.signoff__name .ar{font-style:normal}
+.signoff .is-typing::after{
+  content:""; display:inline-block; width:2px; height:.78em;
+  margin-left:.08em; vertical-align:-.08em; background:var(--rose);
   animation:caret .8s steps(2,start) infinite;
 }
+.signoff__lead .is-typing::after{height:1em; vertical-align:-.15em; background:var(--ink-faint)}
 @keyframes caret{to{visibility:hidden}}
 .signoff__stroke{
-  position:absolute; left:0; right:0; bottom:-.02em;
-  width:100%; height:.32em; overflow:visible;
+  position:absolute; left:0; right:0; bottom:0;
+  width:100%; height:.3em; overflow:visible;
   pointer-events:none;
 }
 .signoff__stroke path{
@@ -401,6 +443,8 @@ body.rtl .wish{text-align:center}
   opacity:1; transform:none;
   transition:opacity .9s var(--ease), transform .9s var(--ease);
 }
+.dateline.reveal.is-in{transition-delay:.15s}
+.opening.reveal.is-in{transition-delay:.3s}
 /* these two carry their own transform, so their reveal keeps it */
 .roses.reveal{transform:translateX(-50%) translateY(20px)}
 .roses.reveal.is-in{transform:translateX(-50%)}
@@ -450,5 +494,61 @@ body.rtl .wish{text-align:center}
 }
 @media (prefers-reduced-motion:reduce){
   .gate.is-shake .envelope__body{animation:none}
-  .signoff__from.is-typing .signoff__text::after{animation:none}
+  .signoff .is-typing::after{animation:none}
+  .music__bars i{animation:none !important}
+  .cue{display:none}
 }
+
+
+/* ---------- music ---------- */
+.music{
+  position:fixed; right:16px; bottom:16px; z-index:65;
+  display:flex; align-items:center; gap:12px;
+  max-width:calc(100vw - 32px);
+  padding:10px 14px 10px 12px;
+  background:rgba(251,249,248,.86);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  border:1px solid var(--rule);
+  border-radius:2px;
+  color:var(--ink-soft);
+  font:300 11px/1 var(--sans);
+  letter-spacing:.14em; text-transform:uppercase;
+  cursor:pointer;
+  box-shadow:0 10px 30px rgba(23,18,15,.1);
+  opacity:0; transform:translateY(8px);
+  transition:opacity .6s var(--ease) .4s, transform .6s var(--ease) .4s, border-color .3s;
+}
+body.rtl .music{right:auto; left:16px}
+body.is-open .music{opacity:1; transform:none}
+.music:hover{border-color:var(--rose-rule)}
+.music:focus-visible{outline:2px solid var(--rose); outline-offset:3px}
+.music__line{
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.music__line.ar{font-family:var(--arabic); text-transform:none; letter-spacing:0; font-size:14px}
+.music__line:empty{display:none}
+.music__bars{display:flex; align-items:flex-end; gap:2px; height:12px; flex:none}
+.music__bars i{
+  width:2px; height:4px; background:var(--rose);
+  transform-origin:bottom;
+  transition:transform .3s ease;
+}
+.music.is-on .music__bars i{animation:bar .9s ease-in-out infinite alternate}
+.music.is-on .music__bars i:nth-child(2){animation-delay:-.3s}
+.music.is-on .music__bars i:nth-child(3){animation-delay:-.6s}
+.music.is-on .music__bars i:nth-child(4){animation-delay:-.15s}
+@keyframes bar{from{transform:scaleY(1)}to{transform:scaleY(3)}}
+.music:not(.is-on){color:var(--ink-faint)}
+.music:not(.is-on) .music__bars i{background:var(--ink-faint)}
+
+/* ---------- scroll cue on the first screen ---------- */
+.cue{
+  position:fixed; left:50%; bottom:22px; z-index:40;
+  width:1px; height:44px; margin-left:-.5px;
+  background:linear-gradient(var(--rose),transparent);
+  transform-origin:top;
+  animation:cue 2.2s var(--ease) infinite;
+  transition:opacity .5s ease;
+}
+.cue.is-gone{opacity:0}
+@keyframes cue{0%{transform:scaleY(0)}45%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}

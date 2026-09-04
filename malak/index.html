@@ -19,18 +19,26 @@
 <!-- petals released when she makes a wish -->
 <canvas id="petals" aria-hidden="true"></canvas>
 
+<!-- the song. starts when the envelope opens, this button mutes it -->
+<audio id="audio" preload="auto" loop></audio>
+<button class="music" id="music" type="button" hidden aria-pressed="false" aria-label="Music on or off">
+  <span class="music__bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+  <span class="music__line" data-musicline></span>
+</button>
+
 <!-- the sealed envelope -->
 <div class="gate" id="gate">
   <div class="gate__inner">
     <button class="envelope" id="envelope" type="button" aria-label="Open the letter">
       <span class="envelope__body">
+        <span class="envelope__letter" aria-hidden="true"></span>
         <span class="envelope__flap"></span>
         <span class="envelope__front"></span>
         <span class="envelope__seal" aria-hidden="true"></span>
       </span>
       <span class="envelope__to">For <em data-name></em></span>
     </button>
-    <p class="gate__hint" id="gateHint">Tap to open</p>
+    <p class="gate__hint" id="gateHint">Tap to open<span class="gate__sound" id="gateSound" hidden>Sound on</span></p>
     <div class="gate__lock" id="gateLock" hidden>
       <p class="gate__lockLabel" data-unlocklabel></p>
       <p class="gate__count" id="gateCount"></p>
@@ -39,6 +47,7 @@
 </div>
 
 <main class="letter" id="letter" hidden>
+  <div class="cue" id="cue" aria-hidden="true"></div>
   <article class="sheet">
 
     <p class="dateline" data-dateline></p>
@@ -81,10 +90,13 @@
         </div>
       </section>
       <p class="signoff__from" id="signature">
-        <span class="signoff__text" data-from></span>
-        <svg class="signoff__stroke" viewBox="0 0 300 14" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M3 9 C 40 4, 90 12, 150 7 S 250 3, 297 8"/>
-        </svg>
+        <span class="signoff__lead"><span class="signoff__text" data-from></span></span>
+        <span class="signoff__name">
+          <span class="signoff__signer" data-signer></span>
+          <svg class="signoff__stroke" viewBox="0 0 300 14" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M3 9 C 40 4, 90 12, 150 7 S 250 3, 297 8"/>
+          </svg>
+        </span>
       </p>
     </footer>
 

@@ -29,23 +29,40 @@ rename `CONTENT_ARABIC` to `CONTENT`.
 
 ## Photos
 
-The red roses are already in `malak/photos/`, cut from the bouquet picture.
+The red roses are already in `malak/photos/`, made from your rose photo:
+`roses.jpg` is the full picture, `rose-detail.jpg` is the close-up used
+beside her age and in the wax seal, and `roses-wide.jpg` is a spare wide
+crop in case you ever want it.
 
 To add a picture of her: drop the file into `malak/photos/` and put its name
 in the `photo` field in `content.js`, for example `"photos/malak.jpg"`.
 Leave that field empty and the section simply does not appear.
 Portrait photos look best, around 900 by 1125 pixels.
 
+## Music
+
+Put your song in `malak/music/` and name it `lovesong.mp3` (or change the
+`music` line in `content.js` to whatever name you use). MP3 plays on every
+phone. The song starts the moment she opens the envelope, fades in quietly,
+and loops. A small button in the corner shows the line
+"However far away, I will always love you" and lets her mute it.
+If there is no file in the folder, the site simply plays no music.
+
 ## What is on the page
 
-1. A sealed envelope with a rose wax seal. She taps it to open.
+1. A sealed envelope with a rose wax seal. Until midnight on 5 September
+   (Cairo time) it stays sealed and shows a countdown. After that, she
+   taps it to open. To look at the letter yourself before then, add
+   `?preview` to the end of the link. To remove the lock, set
+   `unlockAt` to `""` in `content.js`.
 2. The opening line, with her nickname set in rose italic.
 3. The letter, with a drop cap on the first paragraph.
 4. The roses, set wider than the text.
 5. **Make a wish.** She presses it, rose petals fall down the screen,
    and your reply appears.
 6. Her age and her date, with a rose beside them.
-7. Signed "Your future husband".
+7. "Your future husband," then "Nour", written out letter by letter when
+   she reaches it, then underlined with one pen stroke.
 
 A thin red line across the top fills up as she reads.
 
