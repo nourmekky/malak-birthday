@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A letter for Malak</title>
+<meta name="description" content="A birthday letter.">
+<meta name="theme-color" content="#fbf9f8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- reading progress, drawn by CSS scroll timeline where supported -->
+<div class="progress" aria-hidden="true"></div>
+
+<!-- petals released when she makes a wish -->
+<canvas id="petals" aria-hidden="true"></canvas>
+
+<!-- the sealed envelope -->
+<div class="gate" id="gate">
+  <div class="gate__inner">
+    <button class="envelope" id="envelope" type="button" aria-label="Open the letter">
+      <span class="envelope__body">
+        <span class="envelope__flap"></span>
+        <span class="envelope__front"></span>
+        <span class="envelope__seal" aria-hidden="true"></span>
+      </span>
+      <span class="envelope__to">For <em data-name></em></span>
+    </button>
+    <p class="gate__hint" id="gateHint">Tap to open</p>
+    <div class="gate__lock" id="gateLock" hidden>
+      <p class="gate__lockLabel" data-unlocklabel></p>
+      <p class="gate__count" id="gateCount"></p>
+    </div>
+  </div>
+</div>
+
+<main class="letter" id="letter" hidden>
+  <article class="sheet">
+
+    <p class="dateline" data-dateline></p>
+
+    <h1 class="opening" id="opening"></h1>
+
+
+    <div class="body" id="body"></div>
+
+    <blockquote class="pull" id="pull" hidden>
+      <p data-pullquote></p>
+    </blockquote>
+
+    <figure class="roses" id="roses" hidden>
+      <img id="roseImg" alt="A bouquet of red roses" loading="lazy" decoding="async">
+      <figcaption data-rosecaption></figcaption>
+    </figure>
+
+    <figure class="photo" id="photo" hidden>
+      <img id="photoImg" alt="" loading="lazy" decoding="async">
+      <figcaption data-photocaption></figcaption>
+    </figure>
+
+    <section class="wish" id="wish">
+      <p class="wish__prompt" data-wishprompt></p>
+      <button class="wish__btn" id="wishBtn" type="button"></button>
+      <p class="wish__reply" id="wishReply" aria-live="polite"></p>
+    </section>
+
+    <footer class="signoff">
+      <!-- her age and her date, then the signature -->
+      <section class="milestone" id="milestone">
+        <div class="milestone__age" data-age></div>
+        <div class="milestone__meta">
+          <span class="milestone__date" data-birthdate></span>
+          <span class="milestone__rule" aria-hidden="true"></span>
+        </div>
+        <div class="milestone__bloom">
+          <img id="roseDetail" src="photos/rose-detail.jpg" alt="" loading="lazy" decoding="async">
+        </div>
+      </section>
+      <p class="signoff__from" id="signature">
+        <span class="signoff__text" data-from></span>
+        <svg class="signoff__stroke" viewBox="0 0 300 14" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M3 9 C 40 4, 90 12, 150 7 S 250 3, 297 8"/>
+        </svg>
+      </p>
+    </footer>
+
+  </article>
+</main>
+
+<script src="content.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
