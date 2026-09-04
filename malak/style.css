@@ -3,6 +3,7 @@
    the wax seal is the only circle on the page. */
 
 :root{
+  color-scheme:light only;
   --paper:#fbf9f8;
   --paper-2:#f3ece9;
   --ink:#17120f;
@@ -21,7 +22,7 @@
 }
 
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%; color-scheme:light only; background:#fbf9f8}
 body{
   margin:0;
   background:var(--paper);
