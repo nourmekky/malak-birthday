@@ -110,6 +110,7 @@ body.is-open .progress{opacity:1}
   border:1px solid var(--rule);
   border-radius:2px;
   z-index:1;
+  box-shadow:0 -8px 22px rgba(23,18,15,.07);
   transition:transform .9s var(--ease) .12s;
 }
 .envelope__letter::before,
@@ -119,16 +120,18 @@ body.is-open .progress{opacity:1}
 }
 .envelope__letter::before{top:22%}
 .envelope__letter::after{top:34%; right:38%}
-.gate.is-opening .envelope__letter{transform:translateY(-46%)}
+.gate.is-opening .envelope__letter{transform:translateY(-54%)}
 .envelope__flap{
   position:absolute; top:0; left:0;
   width:100%; height:56%;
   background:linear-gradient(180deg,#f6efec,#eae0dc);
   clip-path:polygon(0 0,100% 0,50% 100%);
   transform-origin:top center;
-  transition:transform .8s var(--ease);
+  transition:transform .8s var(--ease), z-index 0s .3s;
   z-index:3;
 }
+/* once the flap has swung up, the letter comes out in front of it */
+.gate.is-opening .envelope__flap{z-index:0}
 .envelope__front{
   position:absolute; inset:auto 0 0 0; height:64%;
   background:linear-gradient(180deg,#fbf7f5,#f1e9e5);
